@@ -1,0 +1,292 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:demo_project/views/sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import '../controllers/get_controller.dart';
+import 'components/all_snackbars.dart';
+import 'constants/constants.dart';
+
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
+
+  @override
+  State<SignUp> createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
+  bool passwordEye = true;
+  String dropdownvalue = 'Male';
+  var items = [
+    'Male',
+    'Female',
+  ];
+
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController numberController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    return Listener(
+      onPointerDown: (PointerDownEvent event) =>
+          FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          leading: IconButton(
+            padding: EdgeInsets.only(top: 20),
+            icon: Icon(
+              Icons.arrow_back,
+              size: 30,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        body: Stack(
+          children: [
+            SizedBox(
+              width: screenWidth,
+              child: Image.asset('assets/images/sign_up_bg.png',
+                  fit: BoxFit.cover),
+            ),
+            // IconButton(
+            //   padding: EdgeInsets.only(top: 20),
+            //   icon: Icon(
+            //     Icons.arrow_back,
+            //     size: 30,
+            //     color: Colors.white,
+            //   ),
+            //   onPressed: () {
+            //     Navigator.pop(context);
+            //   },
+            // ),
+            SingleChildScrollView(
+              physics: BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
+              child: Container(
+                width: screenWidth,
+                height: screenHeight * 0.8,
+                margin: EdgeInsets.only(top: screenHeight * 0.27),
+                padding: EdgeInsets.all(25),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                    )),
+                child: Column(children: [
+                  Container(
+                    width: double.infinity,
+                    child: Text(
+                      "Sign Up",
+                      style: TextStyle(fontFamily: 'Poppins', fontSize: 26),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    height: 50,
+                    child: TextField(
+                      controller: usernameController,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Color.fromARGB(255, 156, 156, 156)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Color.fromARGB(255, 64, 109, 255)),
+                        ),
+                        border: OutlineInputBorder(),
+                        labelText: 'User Name',
+                        hintText: 'Enter Your User Name',
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    height: 50,
+                    child: TextField(
+                      controller: passwordController,
+                      obscureText: passwordEye,
+                      enableSuggestions: false,
+                      autocorrect: false,
+                      decoration: InputDecoration(
+                        //  focusColor: Colors.white,
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Color.fromARGB(255, 156, 156, 156)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Color.fromARGB(255, 64, 109, 255)),
+                        ),
+                        border: OutlineInputBorder(),
+                        labelText: 'Password',
+                        hintText: 'Enter Password',
+                        suffixIcon: IconButton(
+                          icon: Icon(passwordEye
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                          onPressed: () {
+                            setState(
+                              () {
+                                passwordEye = !passwordEye;
+                              },
+                            );
+                          },
+                        ),
+                        alignLabelWithHint: false,
+                        // filled: true,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    height: 50,
+                    child: TextField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Color.fromARGB(255, 156, 156, 156)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Color.fromARGB(255, 64, 109, 255)),
+                        ),
+                        border: OutlineInputBorder(),
+                        labelText: 'Email',
+                        hintText: 'Enter Your Email',
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    height: 50,
+                    child: TextField(
+                      controller: numberController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Color.fromARGB(255, 156, 156, 156)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Color.fromARGB(255, 64, 109, 255)),
+                        ),
+                        border: OutlineInputBorder(),
+                        labelText: 'Number',
+                        hintText: 'Enter Your Number',
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 40, right: 40),
+                    child: Row(
+                      children: [
+                        Text(
+                          "G E N D E R",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Spacer(),
+                        DropdownButton(
+                          elevation: 0,
+                          // Initial Value
+                          value: dropdownvalue,
+
+                          // Down Arrow Icon
+                          icon: const Icon(Icons.keyboard_arrow_down),
+
+                          // Array list of items
+                          items: items.map((String items) {
+                            return DropdownMenuItem(
+                              value: items,
+                              child: Text(items),
+                            );
+                          }).toList(),
+                          // After selecting the desired option,it will
+                          // change button value to selected value
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownvalue = newValue!;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  SizedBox(
+                    height: 50,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      // style: ElevatedButton.styleFrom(
+                      //     backgroundColor: Color.fromARGB(255, 68, 78, 177)),
+                      onPressed: () {
+                        final un = usernameController.text;
+                        final pw = passwordController.text;
+                        final nm = numberController.text;
+                        final em = emailController.text;
+                        final gn = dropdownvalue;
+
+                        allControl.createUser(
+                            user: un,
+                            password: pw,
+                            number: nm,
+                            email: em,
+                            gender: gn);
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        "S I G N  U P",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontFamily: 'Poppins'),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  Container(
+                    child: Text(
+                        "By creating an account, you agree with our Terms & Conditions and Privacy Policy",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontFamily: 'Poppins', color: Colors.grey)),
+                  ),
+                ]),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "977513530058",
+    "project_id": "joke-simulator",
+    "storage_bucket": "joke-simulator.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:977513530058:android:0f3791f1a1094b16a9aa33",
+        "android_client_info": {
+          "package_name": "com.example.demo_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "977513530058-18dqng244f0pg5u65checcs92tv6skkd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA69mOv5avSOFJSxiAcEdGDQ4_YEO4CeFw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "977513530058-18dqng244f0pg5u65checcs92tv6skkd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
